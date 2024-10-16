@@ -18,7 +18,7 @@ const appointmenttRoutes = require('./routes/appointmentRoutes');
 
 const app = express();
 app.use(cors({
-    origin: "https://render-sgr1-server.onrender.com",
+    origin: "https://sgr1test.onrender.com",
     credentials: true                 // Important for session-based authentication (cookies)
   }));
 
