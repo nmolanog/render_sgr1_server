@@ -33,7 +33,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        secure: true, // Use secure cookies in production
         httpOnly: true, // Prevents client-side JS from accessing the cookie
         sameSite: 'None', // For cross-site cookies, use 'None'
     }
