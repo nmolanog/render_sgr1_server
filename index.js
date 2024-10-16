@@ -32,10 +32,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { 
-        secure: true, // for HTTPS
-        sameSite: 'none' // may be necessary for cross-site cookies
-    }
+    cookie: { secure: false } // Set to true if using HTTPS
 }));
 
 // Initialize passport
