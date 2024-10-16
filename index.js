@@ -33,9 +33,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        secure: true, // Use secure cookies in production
-        httpOnly: true, // Prevents client-side JS from accessing the cookie
-        sameSite: 'None', // For cross-site cookies, use 'None'
+        secure: true, // for HTTPS
+        sameSite: 'none' // may be necessary for cross-site cookies
     }
 }));
 
