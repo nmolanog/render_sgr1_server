@@ -5,8 +5,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const pool = require("./db"); 
 const bcrypt = require("bcryptjs");
-const cors= require("cors");
+const cors = require("cors");
 const initializePassport = require("./passportConfig");
+
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const genericRoutes = require('./routes/genericRoutes');
@@ -17,26 +18,28 @@ const commitmenttRoutes = require('./routes/commitmentRoutes');
 const appointmenttRoutes = require('./routes/appointmentRoutes');
 
 const app = express();
+
 app.use(cors({
     origin: "https://sgr1test.onrender.com",
-    credentials: true
-  }));
+    credentials: true  // Important for session-based authentication (cookies)
+}));
 
 // Middleware for parsing body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 // Session configuration
+const isProduction = process.env.NODE_ENV === "production";
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { 
-        secure: true, // Use secure cookies in production
-        httpOnly: true, // Prevents client-side JS from accessing the cookie
-        sameSite: 'None'
-     } // Set to true if using HTTPS
+    cookie: {
+        secure: isProduction, // true if in production (HTTPS), false otherwise
+        httpOnly: true,       // Helps prevent cross-site scripting (XSS) attacks
+        maxAge: 1000 * 60 * 60 * 24 // 24 hours cookie expiration
+    }
 }));
 
 // Initialize passport
@@ -45,6 +48,7 @@ app.use(passport.session());
 
 initializePassport(); 
 
+// Routes
 app.use('/auth', authRoutes);
 app.use('/', genericRoutes);
 app.use('/student', studentRoutes);
