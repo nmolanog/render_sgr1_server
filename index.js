@@ -19,7 +19,7 @@ const appointmenttRoutes = require('./routes/appointmentRoutes');
 const app = express();
 app.use(cors({
     origin: "https://sgr1test.onrender.com",
-    credentials: true                 // Important for session-based authentication (cookies)
+    credentials: true
   }));
 
 // Middleware for parsing body
@@ -32,7 +32,11 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { 
+        secure: true, // Use secure cookies in production
+        httpOnly: true, // Prevents client-side JS from accessing the cookie
+        sameSite: 'None'
+     } // Set to true if using HTTPS
 }));
 
 // Initialize passport
