@@ -36,12 +36,16 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: isProduction, // true if in production (HTTPS), false otherwise
-        httpOnly: true,       // Helps prevent cross-site scripting (XSS) attacks
-        maxAge: 1000 * 60 * 60 * 24 // 24 hours cookie expiration
+        secure: isProduction && app.get('trust proxy') === 1, // true only if production and HTTPS
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 24 hours
     }
 }));
 
+// Trust the proxy (required for HTTPS in environments like Render)
+if (isProduction) {
+    app.set('trust proxy', 1); // Trust the first proxy (e.g., Render's load balancer)
+}
 // Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
