@@ -82,4 +82,8 @@ app.listen(PORT, () => {
     console.log(`Hi there: Server running on port ${PORT}`);
     console.log(`production state ${isProduction}`);
     console.log(`app.get('trust proxy') ${app.get('trust proxy') === 1}`);
+    console.log("Session cookie config:", {
+        secure: isProduction && app.get('trust proxy') === 1,
+        sameSite: isProduction ? "None" : "Lax"
+    });
 }).setTimeout(5000); // Set timeout to 5 seconds (can be increased if needed)
