@@ -43,9 +43,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: isProduction && app.get('trust proxy') === 1, // true only if production and HTTPS
-        httpOnly: true, // Prevents client-side JS from accessing the cookie
-        maxAge: 1000 * 60 * 60 * 24 // 24 hours
+        secure: isProduction && app.get('trust proxy') === 1, // Only secure if in production and using HTTPS
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24, // 24 hours
+        sameSite: isProduction ? "None" : "Lax" // 'None' for cross-origin requests in production, 'Lax' otherwise
     }
 }));
 
