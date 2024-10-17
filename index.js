@@ -21,7 +21,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-    origin: "https://sgr1test.onrender.com", // Allow your client domain
+    origin: "https://rendersgr1client-production.up.railway.app", // Allow your client domain
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allowed methods
     credentials: true, // Allow cookies and credentials to be sent
     optionsSuccessStatus: 204 // For legacy browser support
