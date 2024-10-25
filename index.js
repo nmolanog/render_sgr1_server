@@ -1,10 +1,8 @@
 require('dotenv').config();
 const express = require("express");
 const session = require("express-session");
+const MemoryStore = require('memorystore')(session);
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const pool = require("./db"); 
-const bcrypt = require("bcryptjs");
 const cors= require("cors");
 const initializePassport = require("./passportConfig");
 // Import routes
@@ -38,6 +36,9 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+      }),
     cookie: { secure: isProduction } // Set to true if using HTTPS
 }));
 
